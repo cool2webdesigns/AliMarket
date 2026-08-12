@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AliMarket - Buy Sell Grow Worldwide</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f6f8;
+    color:#111827;
+}
+
+/* HEADER */
+
+header{
+    background:#101522;
+    color:white;
+    padding:22px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:800;
+}
+
+.nav{
+    display:flex;
+    gap:10px;
+}
+
+.nav button{
+    background:transparent;
+    color:white;
+    border:0;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+    background:white;
+    text-align:center;
+    padding:80px 6% 90px;
+}
+
+.hero h1{
+    font-size:clamp(42px,8vw,78px);
+    line-height:1.02;
+    margin:0 0 25px;
+}
+
+.hero p{
+    font-size:23px;
+    margin-bottom:30px;
+}
+
+.search{
+    width:min(700px,100%);
+    padding:20px;
+    border:2px solid #d1d5db;
+    border-radius:16px;
+    font-size:18px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.btn{
+    border:0;
+    background:#3560df;
+    color:white;
+    padding:18px 28px;
+    border-radius:14px;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:#244dcc;
+}
+
+/* SECTIONS */
+
+.section{
+    padding:55px 6%;
+}
+
+.section h2{
+    text-align:center;
+    font-size:40px;
+    margin-top:0;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 3px 14px rgba(0,0,0,.06);
+}
+
+.category{
+    font-size:20px;
+    cursor:pointer;
+    text-align:center;
+    transition:.2s;
+}
+
+.category:hover{
+    transform:translateY(-4px);
+}
+
+/* PRODUCTS */
+
+.products{
+    margin-top:25px;
+}
+
+.product-icon{
+    font-size:48px;
+}
+
+.price{
+    font-size:22px;
+    font-weight:800;
+    margin:10px 0;
+}
+
+/* MESSAGE */
+
+.notice{
+    padding:15px;
+    background:#e8f0ff;
+    border-radius:12px;
+    margin-top:20px;
+}
+
+/* FOOTER */
+
+footer{
+    background:#101522;
+    color:white;
+    padding:35px 6%;
+    text-align:center;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.open{
+    display:flex;
+}
+
+.box{
+    background:white;
+    width:min(500px,100%);
+    padding:28px;
+    border-radius:20px;
+}
+
+.close{
+    float:right;
+    border:0;
+    background:#eee;
+    border-radius:50%;
+    width:35px;
+    height:35px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.box input{
+    width:100%;
+    padding:14px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:10px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    header{
+        padding:18px;
+    }
+
+    .logo{
+        font-size:25px;
+    }
+
+    .nav button{
+        font-size:13px;
+    }
+
+    .hero{
+        padding:60px 20px;
+    }
+
+    .hero h1{
+        font-size:45px;
+    }
+
+    .hero p{
+        font-size:18px;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        🌍 AliMarket
+    </div>
+
+    <div class="nav">
+
+        <button onclick="goTo('shop')">
+            Shop
+        </button>
+
+        <button onclick="openSeller()">
+            Sell
+        </button>
+
+        <button onclick="showCart()">
+            🛒 Cart
+            (<span id="cartCount">0</span>)
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <h1>
+        The Future Of
+        <br>
+        Global Shopping
+    </h1>
+
+    <p>
+        Buy products. Sell online.
+        Grow your business.
+    </p>
+
+
+    <input
+        id="searchBox"
+        class="search"
+        placeholder="Search millions of products..."
+        onkeydown="
+        if(event.key==='Enter'){
+            searchProducts();
+        }
+        "
+    >
+
+
+    <div class="buttons">
+
+        <button
+            class="btn"
+            onclick="startShopping()">
+
+            Start Shopping
+
+        </button>
+
+
+        <button
+            class="btn"
+            onclick="openSeller()">
+
+            Sell On AliMarket
+
+        </button>
+
+    </div>
+
+
+    <div id="message"></div>
+
+</section>
+
+
+
+<!-- CATEGORIES -->
+
+<section
+    class="section"
+    id="categories">
+
+    <h2>
+        Categories
+    </h2>
+
+
+    <div class="grid">
+
+
+        <div
+            class="card category"
+            onclick="
+            filterCategory('Electronics')
+            ">
+
+            📱
+            <br><br>
+
+            Electronics
+
+        </div>
+
+
+        <div
+            class="card category"
+            onclick="
+            filterCategory('Fashion')
+            ">
+
+            👕
+            <br><br>
+
+            Fashion
+
+        </div>
+
+
+        <div
+            class="card category"
+            onclick="
+            filterCategory('Home')
+            ">
+
+            🏠
+            <br><br>
+
+            Home
+
+        </div>
+
+
+        <div
+            class="card category"
+            onclick="
+            filterCategory('Gaming')
+            ">
+
+            🎮
+            <br><br>
+
+            Gaming
+
+        </div>
+
+
+        <div
+            class="card category"
+            onclick="
+            filterCategory('Sports')
+            ">
+
+            ⚽
+            <br><br>
+
+            Sports
+
+        </div>
+
+
+        <div
+            class="card category"
+            onclick="
+            filterCategory('Vehicles')
+            ">
+
+            🚗
+            <br><br>
+
+            Vehicles
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- SHOP -->
+
+<section
+    class="section"
+    id="shop">
+
+    <h2>
+        Shop Products
+    </h2>
+
+
+    <div class="buttons">
+
+        <button
+            class="btn"
+            onclick="loadProducts()">
+
+            Show All Products
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="products"
+        class="grid products">
+
+    </div>
+
+</section>
+
+
+
+<!-- SELLER -->
+
+<section
+    class="section"
+    id="sell">
+
+    <h2>
+        Sell On AliMarket
+    </h2>
+
+
+    <div
+        class="card"
+        style="
+        max-width:700px;
+        margin:auto;
+        text-align:center;
+        ">
+
+        <h3>
+            Start Your Online Store
+        </h3>
+
+        <p>
+            Create your seller account
+            and start listing products.
+        </p>
+
+
+        <button
+            class="btn"
+            onclick="openSeller()">
+
+            Become A Seller
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    © 2026 AliMarket
+
+    <br><br>
+
+    Buy · Sell · Grow Worldwide
+
+</footer>
+
+
+
+<!-- SELLER MODAL -->
+
+<div
+    class="modal"
+    id="sellerModal">
+
+
+    <div class="box">
+
+
+        <button
+            class="close"
+            onclick="
+            closeModal('sellerModal')
+            ">
+
+            ×
+
+        </button>
+
+
+        <h2>
+            Seller Registration
+        </h2>
+
+
+        <input
+            id="sellerName"
+            placeholder="Your full name"
+        >
+
+
+        <input
+            id="storeName"
+            placeholder="Store name"
+        >
+
+
+        <input
+            id="sellerEmail"
+            type="email"
+            placeholder="Email address"
+        >
+
+
+        <button
+            class="btn"
+            onclick="registerSeller()">
+
+            Create Seller Account
+
+        </button>
+
+
+        <div
+            id="sellerResult">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- CART MODAL -->
+
+<div
+    class="modal"
+    id="cartModal">
+
+
+    <div class="box">
+
+
+        <button
+            class="close"
+            onclick="
+            closeModal('cartModal')
+            ">
+
+            ×
+
+        </button>
+
+
+        <h2>
+            🛒 Your Cart
+        </h2>
+
+
+        <div id="cart">
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="checkout()">
+
+            Checkout
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* PRODUCTS */
+
+const products = [
+
+    {
+        id:1,
+        name:"Smart Phone",
+        price:499,
+        category:"Electronics"
+    },
+
+    {
+        id:2,
+        name:"Gaming Laptop",
+        price:899,
+        category:"Gaming"
+    },
+
+    {
+        id:3,
+        name:"Men's Jacket",
+        price:79,
+        category:"Fashion"
+    },
+
+    {
+        id:4,
+        name:"Smart TV",
+        price:599,
+        category:"Electronics"
+    },
+
+    {
+        id:5,
+        name:"Football Boots",
+        price:65,
+        category:"Sports"
+    },
+
+    {
+        id:6,
+        name:"Home Coffee Machine",
+        price:129,
+        category:"Home"
+    }
+
+];
+
+
+
+/* CART */
+
+let cart =
+JSON.parse(
+    localStorage.getItem(
+        "alimarketCart"
+    ) || "[]"
+);
+
+
+
+/* SCROLL */
+
+function goTo(id){
+
+    document
+        .getElementById(id)
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+
+/* START SHOPPING */
+
+function startShopping(){
+
+    goTo("shop");
+
+    loadProducts();
+
+}
+
+
+
+/* SELLER */
+
+function openSeller(){
+
+    document
+        .getElementById("sellerModal")
+        .classList
+        .add("open");
+
+}
+
+
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList
+        .remove("open");
+
+}
+
+
+
+/* PRODUCTS */
+
+function loadProducts(list=products){
+
+    const container =
+        document
+        .getElementById("products");
+
+
+    container.innerHTML = "";
+
+
+    list.forEach(function(product){
+
+        const icon =
+            product.category === "Electronics"
+            ? "📱"
+            : product.category === "Gaming"
+            ? "🎮"
+            : product.category === "Fashion"
+            ? "👕"
+            : product.category === "Sports"
+            ? "⚽"
+            : "🏠";
+
+
+        container.innerHTML += `
+
+            <div class="card">
+
+                <div class="product-icon">
+                    ${icon}
+                </div>
+
+                <h3>
+                    ${product.name}
+                </h3>
+
+                <p>
+                    ${product.category}
+                </p>
+
+                <div class="price">
+                    £${product.price.toFixed(2)}
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="
+                    addToCart(${product.id})
+                    ">
+
+                    Add To Cart
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+
+/* SEARCH */
+
+function searchProducts(){
+
+    const search =
+        document
+        .getElementById("searchBox")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const results =
+        products.filter(function(product){
+
+            return (
+                product.name
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                product.category
+                .toLowerCase()
+                .includes(search)
+            );
+
+        });
+
+
+    goTo("shop");
+
+    loadProducts(results);
+
+
+    document
+        .getElementById("message")
+        .innerHTML = `
+
+        <div class="notice">
+
+            ${results.length}
+            product(s) found.
+
+        </div>
+
+        `;
+
+}
+
+
+
+/* CATEGORY */
+
+function filterCategory(category){
+
+    goTo("shop");
+
+
+    const results =
+        products.filter(function(product){
+
+            return product.category === category;
+
+        });
+
+
+    loadProducts(results);
+
+}
+
+
+
+/* ADD TO CART */
+
+function addToCart(id){
+
+    const product =
+        products.find(
+            function(item){
+                return item.id === id;
+            }
+        );
+
+
+    const existing =
+        cart.find(
+            function(item){
+                return item.id === id;
+            }
+        );
+
+
+    if(existing){
+
+        existing.quantity++;
+
+    }else{
+
+        cart.push({
+
+            id:id,
+
+            quantity:1
+
+        });
+
+    }
+
+
+    saveCart();
+
+
+    document
+        .getElementById("message")
+        .innerHTML = `
+
+        <div class="notice">
+
+            ✅ ${product.name}
+            added to your cart.
+
+        </div>
+
+        `;
+
+}
+
+
+
+/* SAVE CART */
+
+function saveCart(){
+
+    localStorage.setItem(
+        "alimarketCart",
+        JSON.stringify(cart)
+    );
+
+
+    document
+        .getElementById("cartCount")
+        .textContent =
+        cart.reduce(
+            function(total,item){
+
+                return total + item.quantity;
+
+            },
+            0
+        );
+
+}
+
+
+
+/* SHOW CART */
+
+function showCart(){
+
+    const container =
+        document.getElementById("cart");
+
+
+    if(cart.length === 0){
+
+        container.innerHTML = `
+
+            <p>
+                Your cart is empty.
+            </p>
+
+        `;
+
+    }else{
+
+
+        let total = 0;
+
+
+        container.innerHTML = "";
+
+
+        cart.forEach(function(item){
+
+            const product =
+                products.find(
+                    function(p){
+                        return p.id === item.id;
+                    }
+                );
+
+
+            const itemTotal =
+                product.price *
+                item.quantity;
+
+
+            total += itemTotal;
+
+
+            container.innerHTML += `
+
+                <div
+                    class="card"
+                    style="margin-bottom:10px">
+
+                    <strong>
+                        ${product.name}
+                    </strong>
+
+                    <br><br>
+
+                    £${product.price.toFixed(2)}
+                    ×
+                    ${item.quantity}
+
+                    <br>
+
+                    <button
+                        onclick="
+                        removeFromCart(${product.id})
+                        ">
+
+                        Remove
+
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+
+        container.innerHTML += `
+
+            <h3>
+
+                Total:
+                £${total.toFixed(2)}
+
+            </h3>
+
+        `;
+
+    }
+
+
+    document
+        .getElementById("cartModal")
+        .classList
+        .add("open");
+
+}
+
+
+
+/* REMOVE */
+
+function removeFromCart(id){
+
+    cart =
+        cart.filter(
+            function(item){
+
+                return item.id !== id;
+
+            }
+        );
+
+
+    saveCart();
+
+    showCart();
+
+}
+
+
+
+/* CHECKOUT */
+
+function checkout(){
+
+    if(cart.length === 0){
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+
+        "AliMarket checkout button is working! " +
+
+        "The next step is connecting real Stripe payments."
+
+    );
+
+}
+
+
+
+/* SELLER REGISTRATION */
+
+function registerSeller(){
+
+    const name =
+        document
+        .getElementById("sellerName")
+        .value
+        .trim();
+
+
+    const store =
+        document
+        .getElementById("storeName")
+        .value
+        .trim();
+
+
+    const email =
+        document
+        .getElementById("sellerEmail")
+        .value
+        .trim();
+
+
+    if(
+        !name ||
+        !store ||
+        !email
+    ){
+
+        alert(
+            "Please complete all fields."
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+
+        "alimarketSeller",
+
+        JSON.stringify({
+
+            name:name,
+
+            store:store,
+
+            email:email
+
+        })
+
+    );
+
+
+    document
+        .getElementById("sellerResult")
+        .innerHTML = `
+
+        <div class="notice">
+
+            ✅ Seller registration
+            saved successfully.
+
+        </div>
+
+        `;
+
+}
+
+
+
+/* INITIAL LOAD */
+
+saveCart();
+
+loadProducts();
+
+
+</script>
+
+</body>
+
+</html>
